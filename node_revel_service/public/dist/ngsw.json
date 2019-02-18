@@ -1,0 +1,87 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/inline.bundle.js",
+        "/main.bundle.js",
+        "/polyfills.bundle.js",
+        "/scripts.bundle.js",
+        "/styles.bundle.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/css/flexboxgrid.min.css",
+        "/assets/icons/close-24px.svg",
+        "/assets/icons/help_outline-24px.svg",
+        "/assets/icons/home-24px.svg",
+        "/assets/icons/ic_close_white_36px.svg",
+        "/assets/icons/wifi-24px.svg",
+        "/assets/img/alert.png",
+        "/assets/img/owl.jpg",
+        "/assets/img/reveldigital-icon.png",
+        "/assets/img/reveldigital-icon.svg",
+        "/assets/img/reveldigital-logo-white-text.png",
+        "/assets/img/transparent.png",
+        "/assets/js/client.js",
+        "/assets/js/postmate.min.js",
+        "/assets/tones/warningtone.mp3"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/css/flexboxgrid.min.css": "c2f08a4dc8026d25c312f7a1d3c470f5c5030a56",
+    "/assets/icons/close-24px.svg": "0b073f4318bee90a5342765ab7ec3188cad04c69",
+    "/assets/icons/help_outline-24px.svg": "0d8827db16772ef874c47ec0602d76b44fc268d1",
+    "/assets/icons/home-24px.svg": "0acc9e888ee145ae78aadbfddbb47884b000864d",
+    "/assets/icons/ic_close_white_36px.svg": "23e0fced1eec08da54bfed682e2248bc7fdc0e4c",
+    "/assets/icons/wifi-24px.svg": "23172ec9d9beed27d00ab463eeef47330ae88957",
+    "/assets/img/alert.png": "f32f31c16185b8f193ca6f1a5912e232015a6364",
+    "/assets/img/owl.jpg": "c0337146fd34256fd69956742788b46cb3874a76",
+    "/assets/img/reveldigital-icon.png": "331f6bbbd23042094db9829b244d56f563743833",
+    "/assets/img/reveldigital-icon.svg": "49e77427e4cc2bdea53edcf99c808e13e9331db2",
+    "/assets/img/reveldigital-logo-white-text.png": "4b693586584956a2d2d53047715d8961c93a26a4",
+    "/assets/img/transparent.png": "1dfc5b85346f10a5371ce4b3469c55b5cc51ce5c",
+    "/assets/js/client.js": "d500019a902d8c773b4a8b13477eca5edf4c77b3",
+    "/assets/js/postmate.min.js": "5f10c719d4674485289100401a45f05a57ce498b",
+    "/assets/tones/warningtone.mp3": "6955c3e7eb00c3b76e2d8aaf7cacda2ce6b9aab1",
+    "/favicon.ico": "eccf8af78d1d09893c21d01d4898e0b3b7dec8a6",
+    "/index.html": "ccfba7a9c812c5fb90feb6a68980cf2e5b5f40b4",
+    "/inline.bundle.js": "998c6060446975e566fd17509558ddc68d72eec3",
+    "/main.bundle.js": "c9048c584a4e146055bf518e0e24d1579cac3e6b",
+    "/polyfills.bundle.js": "d8dd7a75a3182e9a4604e2e9128c4d1321ac2360",
+    "/scripts.bundle.js": "d602effc0289cd46a3ea782a90e9b14e0e6cb685",
+    "/styles.bundle.css": "95791fadb233861aa5470aea1b2c82389e572e48"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*\\.[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*\\/.*$"
+    }
+  ]
+}

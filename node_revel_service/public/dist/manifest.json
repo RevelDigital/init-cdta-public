@@ -1,0 +1,19 @@
+{
+  "name": "Revel Player",
+  "description": "Revel Digital is a next generation platform for digital signage and media distribution.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "permissions": [
+    "storage",
+    "geolocation",
+    "unlimitedStorage",
+    "webview",
+    {"fileSystem": ["write", "retainEntries", "directory"]}
+  ],
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "calculator-16.png", "128": "calculator-128.png" }
+}

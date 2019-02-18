@@ -1,0 +1,407 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="theme-color" content="#673ab7"><link rel="manifest" href="manifest.json"><title>Revel Player</title><base href="/"><link rel="stylesheet" href="./assets/css/flexboxgrid.min.css" type="text/css"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/x-icon" href="favicon.ico"><style>html {
+      height: 100%;
+    }
+    body {
+      min-height: 100%;
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    input,
+    textarea,
+    buttons {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    }
+
+    pre {
+      border-bottom: 1px solid grey;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding: 5px;
+      padding-left: 10px
+    }
+    /* Ripple effect */
+    .ripple {
+      background-position: center;
+      transition: background 0.8s;
+    }
+    .ripple:hover {
+      background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    }
+    .ripple:active {
+      background-color: #6eb9f7;
+      background-size: 100%;
+      transition: background 0s;
+    }
+
+    /* Button style */
+    button {
+      border: none;
+      border-radius: 2px;
+      padding: 12px 18px;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: white;
+      background-color: #2196f3;
+      box-shadow: 0 0 4px #999;
+      outline: none;
+    }
+
+    .hidden{
+      display: none;
+    }
+
+    .string {
+      color: red;
+    }
+
+    .number {
+      color: blue;
+    }
+
+    .boolean {
+      color: blue;
+    }
+
+    .null {
+      color: magenta;
+    }
+
+    .key {
+      color: black;
+    }
+
+    #log {
+      background: rgba(220,220,220,.9);
+      position: absolute;
+      width: 100%;
+      top: 60px;
+      left: 0;
+
+    }
+
+    #logOutput{
+      height: calc(100% - 55px);
+      top: 55px!important;
+      bottom: 0px;
+      width: 100%;
+      overflow: auto;
+      position: fixed;
+      padding-bottom: 5px;
+    }
+
+    .header {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 50px;
+      background-color: #6d8591;
+      color: white;
+      text-align: center;
+    }
+
+    .shadow {
+      -moz-box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+      -webkit-box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+      box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+
+      filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3, MakeShadow=true, ShadowOpacity=0.45);
+      -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.45)";
+      zoom: 1;
+    }
+
+    .shadow .content {
+      position: relative; /* This protects the inner element from being blurred */
+      background-color: #DDD;
+    }
+    #log .debug:nth-child(odd) {
+      background: rgba(125, 118, 126, 0.18) !important;
+
+    }
+    #log .warn:nth-child(odd){
+      background: rgba(255, 255, 0, 0.08);
+    }
+    #log .error:nth-child(odd){
+      background: rgba(255, 0, 0, 0.08);
+    }
+
+    .entry {
+      background: transparent;
+    }
+
+    .debug{
+
+    }
+    .warn{
+      background: rgba(255, 255, 0, 0.14);
+    }
+    .error{
+      background: rgba(255, 0, 0, 0.15);
+    }</style><link href="styles.bundle.css" rel="stylesheet"/></head><body onload=""><div style="font-family: 'Roboto', 'Helvetica', sans-serif; z-index: 999; position: absolute; top: 0; left: 0; bottom: 0; right:0; display: none" id="log"><div class="header shadow"><div><div class="row start-xs" style="padding-top: 3px"><div class="col-xs"><button class="ripple" onclick="document.getElementById('logOutput').innerHTML = ''">Clear</button></div><div class="col-xs"><input type="checkbox" checked="checked" style="text-align: left" id="debug" name="showDebug" onclick="showDebugFunc(this)"/><label for="debug">Debug</label></div><div class="col-xs"><input type="checkbox" checked="checked" style="text-align: left" id="warn" name="showWarn" onclick="showWarningFunc(this)"/><label for="warn" style="color: yellow">Warning</label></div><div class="col-xs"><input type="checkbox" checked="checked" style="text-align: left" id="error" name="showError" onclick="showErrorFunc(this)"/><label for="error" style="color: red">Error</label></div><div class="col-xs"><input type="checkbox" checked="checked" style="text-align: left" id="scroll" name="scroll" onclick="scrollBottom(this)"/><label for="scroll">Scroll</label></div><div class="col-xs" style="float: right; margin-right: 15px;"><form class="mui-form" autocomplete="on"><div><input type="text" style="width: 100%; color: black!important;" onkeydown="search(this)" placeholder="Code..."></div></form></div></div></div></div><div id="logOutput"></div></div><app-root></app-root><noscript><h3 style="color: #673ab7; font-family: Helvetica; margin: 2rem;">Sorry, but app is not available without javascript</h3></noscript><script>document.onkeydown = fkey;
+    window.addEventListener('submit', function($event){
+      event.preventDefault();
+    });
+
+    // let Client = {};
+    // Client.isScreensaver = ()=>{ return new Promise((resolve, reject)=>{
+    //   resolve(false);
+    // })};
+
+
+    if(typeof Client !== 'undefined' && isScreenSaver()){
+      window['getPlatformName'] = function(){
+        return "screensaver";
+      }
+    }
+
+
+    async function isScreenSaver(){
+      await Client.isScreensaver();
+    }
+
+    function fkey(e){
+      e = e || window.event;
+      if (e.keyCode == 121) {
+        showMenu();
+      }
+      if(e.which==120){
+        e.preventDefault();//kill anything that browser may have assigned to it by default
+        var log = document.getElementById('log');
+        if (log.style.display === "none") {
+          log.style.display = "block";
+        } else {
+          log.style.display = "none";
+        }
+        return false;
+      }
+      if(e.which==112){
+        e.preventDefault();//kill anything that browser may have assigned to it by default
+        Controller.reload();
+        return false;
+      }
+    }
+
+    window.onerror = function(err, msg, line, fg) {
+      console.error(err + ' [Line Number: '+line+']');
+    };
+
+
+    var showDebug = true;
+    var showWarn = true;
+    var showError = true;
+
+    function clear() {
+      console.log('clear');
+      document.getElementById('log').innerHTML = '';
+
+    }
+
+
+    function showMenu(){
+      if((typeof Controller)!='object'){
+        console.log('no controller');
+      } else{
+        Controller.toggleSettings();
+      }
+    }
+
+    function showDebugFunc(checkbox) {
+      if (checkbox.checked) {
+        show('debug');
+        showDebug = true;
+      }
+      else {
+        hide('debug');
+        showDebug = false;
+      }
+    }
+
+    // function scanWifi(){
+    //   return new Promise((resolve, reject)=>{
+    //     resolve([{"bssId":"a4:2b:8c:80:9f:8f","essId":"NETGEAR45","signal":-30},{"bssId":"dc:ef:09:cb:c8:c8","essId":"DGE_5G","signal":-40},{"bssId":"78:24:af:91:46:40","essId":"CATALYST","signal":-52},{"bssId":"dc:ef:09:cb:c8:c6","essId":"DGE","signal":-48},{"bssId":"90:ef:68:bc:b9:0b","essId":"abbott302","signal":-56},{"bssId":"80:37:73:fc:90:0b","essId":"NETGEAR98-5G","signal":-58},{"bssId":"80:37:73:fc:90:09","essId":"NETGEAR98","signal":-54},{"bssId":"cc:be:59:31:1c:13","essId":"CXNK004094C4","signal":-58},{"bssId":"ec:4f:82:a5:4d:90","essId":"Grover1","signal":-66},{"bssId":"d8:eb:97:32:fe:2d","essId":"OSC2","signal":-67},{"bssId":"ec:4f:82:29:dc:15","essId":"Asah 5G","signal":-74},{"bssId":"68:72:51:38:25:a3","essId":"MHD_GPS","signal":-80},{"bssId":"a0:a3:e2:7c:ad:95","essId":"Reporters","signal":-75},{"bssId":"d8:eb:97:32:fe:2e","essId":"OSC2_5G","signal":-85},{"bssId":"62:6d:c7:07:f4:41","essId":"HP-Setup>41-M277 LaserJet","signal":-62},{"bssId":"0a:a1:51:9c:df:55","essId":"NETGEAR_EXT_EXT","signal":-64},{"bssId":"70:7d:b9:b9:fb:3f","essId":"Midco WiFi","signal":-80},{"bssId":"7d:ef:c2:01:76:52","essId":"HP-nomodel.A8AABC","signal":-78},{"bssId":"00:15:6d:e4:d8:d9","essId":"","signal":-86},{"bssId":"a4:2b:8c:80:9f:8e","essId":"NETGEAR45-5G","signal":-25},{"bssId":"78:24:af:91:46:44","essId":"CATALYST_5G","signal":-30},{"bssId":"08:02:8e:e9:3a:37","essId":"NETGEAR94","signal":-80},{"bssId":"00:3a:99:24:aa:f0","essId":"\u0000","signal":-84},{"bssId":"48:f8:b3:6d:5b:f5","essId":"Fercho-1","signal":-84},{"bssId":"24:a0:74:79:6a:a2","essId":"Codelation","signal":-84},{"bssId":"c0:56:27:6f:d4:76","essId":"BlueBear-2.4","signal":-84},{"bssId":"30:91:8f:63:7e:e1","essId":"GlacierSnow","signal":-86},{"bssId":"8a:15:04:bd:8c:2f","essId":"\u0000\u0000\u0000\u0000","signal":-84},{"bssId":"62:38:e0:32:dc:b1","essId":"StMarksGuest","signal":-82}])
+    //   })
+    // }
+
+    // function checkSettings(settings, options){
+    //   console.log(JSON.stringify(settings), JSON.stringify(options));
+    // }
+
+    function showWarningFunc(checkbox) {
+      if (checkbox.checked) {
+        show('warn');
+        showWarn = true;
+      }
+      else {
+        hide('warn');
+        showWarn = false;
+      }
+    }
+
+
+
+    function showErrorFunc(checkbox) {
+      if (checkbox.checked) {
+        show('error');
+        showError = true;
+      }
+      else {
+        hide('error');
+        showError = false;
+      }
+    }
+
+    function scrollBottom(checkbox) {
+      if (checkbox.checked) {
+        shouldScroll = true;
+      }
+      else {
+        shouldScroll = false;
+      }
+    }
+
+    var debug = function () {
+      if (!window.console || !console.log) {
+        return;
+      }
+      return Function.prototype.bind.call(console.log, console);
+    }();
+
+
+    // function getNetworkInterfaces(){
+    //   return [ { name: 'lo', mac: '00:00:00:00:00:00', ip: '127.0.0.1' },
+    //     { name: 'eth0', mac: '90:ac:3f:0b:01:b9', ip: '10.0.0.4' },
+    //     { name: 'wlan0', mac: '90:ac:3f:0f:5a:7b', ip: '10.0.0.17' } ];
+    // }
+    //debug();
+
+    var shouldScroll = true;
+
+    function takeOverConsole() {
+      var original = window.console;
+      window.console = {
+        log: function () {
+          for (const message of arguments) {
+            var iDiv = document.createElement('p');
+            if (typeof message == 'object') {
+              iDiv.innerHTML += (JSON && JSON.stringify ? output('debug', syntaxHighlight(message)) : message) + '<br />';
+            } else {
+              output('debug', iDiv.innerHTML += message + '<br />');
+            }
+          }
+          scroll();
+          original.log.apply(original, arguments)
+
+        }
+        , warn: function () {
+
+          for (const message of arguments) {
+            if(typeof message == 'string' && message.indexOf('source-map-support/source-map-support')){
+
+            }else {
+              var iDiv = document.createElement('p');
+              if (typeof message == 'object') {
+                iDiv.innerHTML += (JSON && JSON.stringify ? output('debug', syntaxHighlight(message)) : message) + '<br />';
+              } else {
+                if (message == 'NaN') {
+                  console.log('yep');
+                }
+                output('warn', iDiv.innerHTML += message + '<br />');
+              }
+            }
+          }
+          scroll();
+          original.warn.apply(original, arguments)
+        }
+        , error: function () {
+          // do sneaky stuff
+          for (const message of arguments) {
+            var iDiv = document.createElement('p');
+            if (typeof message == 'object') {
+              iDiv.innerHTML += (JSON && JSON.stringify ? output('debug', syntaxHighlight(message)) : message) + '<br />';
+            } else {
+              if (message == 'NaN') {
+                console.log('yep');
+              }
+              output('error', iDiv.innerHTML += message + '<br />');
+            }
+          }
+          scroll();
+          original.error.apply(original, arguments)
+        }
+      };
+
+    }
+
+
+
+
+
+    function hide(className) {
+      for(const val of document.querySelectorAll('.'+className)){
+        val.className+=' hidden';
+      }
+    }
+
+    function show(className) {
+      for(const val of document.querySelectorAll('.'+className)){
+        val.classList.remove("hidden");
+      }
+
+    }
+
+    function scroll() {
+      if(shouldScroll){
+       // document.getElementById('log').scrollTo(0, document.getElementById("logOutput").scrollHeight);
+      }
+    }
+
+    function search(ele) {
+      if (event.key === 'Enter') {
+        try {
+          eval(ele.value);
+        } catch (e){
+          console.error(e.message);
+        }
+      }
+    }
+
+    function syntaxHighlight(json) {
+      if (typeof json != 'string') {
+        json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'key';
+          } else {
+            cls = 'string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    function output(type,inp) {
+      var el = document.getElementById('logOutput');
+      var child = document.createElement('pre');
+      child.className += type+' entry';
+      if(type == 'debug' && !showDebug){
+        child.className += ' hidden';
+      } else if (type == 'warn' && !showWarn){
+        child.className += ' hidden';
+      } else if (type == 'error' && !showError){
+        child.className += ' hidden';
+      }
+      el.appendChild(child).innerHTML = inp;
+    }</script><script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="scripts.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body></html>
