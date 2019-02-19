@@ -67,11 +67,15 @@ function update(location, metaName, tempZipName, unzipLocation) {
 
 
 function main(){
-    update('server.zip', 'serverMeta.json', 'serverTemp.zip', './').then(() =>{
-        update('dist.zip', 'appMeta.json', 'appTemp.zip', 'public/').then(()=>{
-            require('./server/server').start()
-        })
-    });
+    try {
+        update('server.zip', 'serverMeta.json', 'serverTemp.zip', './').then(() => {
+            update('dist.zip', 'appMeta.json', 'appTemp.zip', 'public/').then(() => {
+                require('./server/server').start()
+            })
+        });
+    } catch(){
+        require('./server/server').start()
+    }
 
 }
 
