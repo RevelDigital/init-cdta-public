@@ -73,7 +73,7 @@ function main(){
                 require('./server/server').start()
             })
         });
-    } catch(){
+    } catch(e){
         require('./server/server').start()
     }
 
