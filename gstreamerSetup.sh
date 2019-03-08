@@ -55,6 +55,7 @@ sudo ./autogen.sh
 make
 sudo make install
 cd ~
+echo "vaapi setup complete"
 cd init-cdta-public/
 sudo chmod +x startScript.sh
 sudo mv init-revel-startup.service /etc/systemd/system/init-revel-startup.service
