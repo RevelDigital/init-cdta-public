@@ -42,7 +42,7 @@ try{
 
 copilotHelper.startCopilotSocket();
 copilotHelper.eventCallback.addListener('new model', newEventModel=>{
-    console.log([newEventModel]);
+
     addEvent({name:'copilotInformation', arg: JSON.stringify(newEventModel)})
 });
 
