@@ -9,6 +9,7 @@ git clone https://github.com/RevelDigital/gst-plugins-base.git
 git clone https://github.com/RevelDigital/gst-plugins-good.git
 git clone https://github.com/RevelDigital/gst-plugins-bad.git
 git clone https://github.com/RevelDigital/gst-plugins-ugly.git
+git clone https://github.com/RevelDigital/gstreamer-vaapi.git
 sudo apt-get --assume-yes install libtool autoconf pkg-config autopoint bison flex libx264-dev gtk-doc-tools libperl-dev libgtk2.0-dev libgles2-mesa-dev nodejs unclutter chromium-browser
 sudo ldconfig
 echo "setting up gstreamer"
@@ -49,6 +50,11 @@ make
 sudo make install
 cd ~
 echo "gstreamer setup complete"
+cd ~/gstreamer-vaapi/
+sudo ./autogen.sh
+make
+sudo make install
+cd ~
 cd init-cdta-public/
 sudo chmod +x startScript.sh
 sudo mv init-revel-startup.service /etc/systemd/system/init-revel-startup.service
