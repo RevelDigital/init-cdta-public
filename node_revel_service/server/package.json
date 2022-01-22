@@ -16,7 +16,7 @@
     "express": "^4.15.2",
     "express-ws": "^4.0.0",
     "node-biginteger": "0.0.10",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^3.1.1",
     "node-unzip-2": "^0.2.7",
     "unzip": "^0.1.11",
     "websocket": "^1.0.28",
